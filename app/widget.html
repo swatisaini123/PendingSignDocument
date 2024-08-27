@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Zoho Details</title>
+    <script src="https://live.zwidgets.com/js-sdk/1.1/ZohoEmbededAppSDK.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+        <img src="https://www.swigartlawgroup.com/wp-content/themes/Swigart%20Law%20Group/images/logo-header-2.png" alt="Swigart Law Group Logo">
+    </div>
+   
+</div>
+  <div class="spinner" id="spinner">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="popup" id="popup"></div>
+  <div id="recordContainer">
+    <div id="records-container"></div>
+  </div>
+  <footer>
+    <div class="Footercontainer">
+      <div class="footer">
+        <div class="address">
+          <div class="textwidget">
+            <p>2221 CAMINO DEL RIO S.<br>
+              SUITE 308, SAN DIEGO, CA 92108</p>
+            <p><a
+                href="https://www.google.com/maps/place/2221+Camino+del+Rio+S+STE+308,+San+Diego,+CA+92108,+USA/@32.7665949,-117.1434727,17z/data=!3m1!4b1!4m5!3m4!1s0x80d9551b81b82bbd:0xe0b623725499b16c!8m2!3d32.7665949!4d-117.141284"
+                target="_blank" rel="noopener">GET DIRECTIONS</a></p>
+            <p>&nbsp;</p>
+            <p>1987 North Marshall Avenue,<br>
+              Suite #102,El Cajon, CA 92020</p>
+            <p><a
+                href="https://www.google.com/maps/place/1987+N+Marshall+Ave+%23102,+El+Cajon,+CA+92020,+USA/@32.8250099,-116.9763854,17z/data=!3m1!4b1!4m5!3m4!1s0x80d95819e62ac245:0xc812c07aec48b0e3!8m2!3d32.8250099!4d-116.9741967"
+                target="_blank" rel="noopener">GET DIRECTIONS</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="address">
+          <div class="textwidget">
+            <p>1700 Seventh Avenue,<br>
+              Suite #2100, Seattle, WA 98101</p>
+            <p><a
+                href="https://www.google.com/maps/place/1700+7th+Ave+%232100,+Seattle,+WA+98101/@47.6141942,-122.3380006,17z/data=!3m1!4b1!4m6!3m5!1s0x5490154add39cf31:0x16b62172c027d951!8m2!3d47.6141906!4d-122.3354257!16s%2Fg%2F11q_69w1z2?entry=ttu" 
+                target="_blank">GET
+                DIRECTIONS</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="web-connect">
+          <div class="textwidget">
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-1208"
+                src="https://www.swigartlawgroup.com/wp-content/uploads/2021/02/logo-footer-2-1.jpg" alt="" width="300"
+                height="85"></p>
+            <div class="socialmedia-footer"><a href="https://www.facebook.com/Swigart-Law-Group-105786330799288/"
+                target="_blank" rel="noopener"><img decoding="async"
+                  src="https://www.swigartlawgroup.com/wp-content/uploads/2019/08/facebook-icon.png"
+                  alt="facebook"></a><a href="https://www.linkedin.com/in/joshua-swigart-55a891190/" target="_blank"
+                rel="noopener"><img decoding="async"
+                  src="https://www.swigartlawgroup.com/wp-content/uploads/2019/08/linkedin-icon.png" alt="linkedin"></a>
+            </div>
+          </div>
+          <div class="textwidget">
+            <ul>
+              <li><a href="https://www.swigartlawgroup.com/privacy-policy/">Privacy Policy</a></li>
+              <li><a href="https://www.swigartlawgroup.com/disclaimer/">Disclaimer</a></li>
+              <li><a href="https://www.swigartlawgroup.com/accessibility-statement/">Accessibility Statement</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="textwidget">
+          <ul class="company-info">
+            <li><a href="mailto:josh@swigartlawgroup.com">josh@swigartlawgroup.com</a></li>
+            <li>PHONE: <a href="tel:8662193343">866-219-3343</a></li>
+            <li>FAX: 866-219-8344</li>
+            <li>Direct Call to Josh: <a href="tel:6197286348">619-728-6348</a></li>
+          </ul>
+        </div>
+
+        <p></p>
+      </div>
+    </div>
+    <div class="copyright">
+      <div class="textwidget">
+        <p>©2023 Swigart Law Group APC.</p>
+        <p class="footerlink"><a href="https://www.swigartlawgroup.com/privacy-policy/">Privacy Policy</a>|<a
+            href="https://www.swigartlawgroup.com/disclaimer/">Disclaimer</a>|<a
+            href="https://www.swigartlawgroup.com/accessibility-statement/">Accessibility Statement</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const recordsContainer = document.getElementById("records-container");
+    let hasPendingDocuments = false;
+    let recordsProcessed = 0;
+    let totalRecords = 0;
+  
+    function showPopup(message, color) {
+      const popup = document.getElementById('popup');
+      popup.textContent = message;
+      popup.style.display = 'block';
+      popup.style.backgroundColor = color;
+      setTimeout(() => {
+        popup.style.opacity = 0;
+        setTimeout(() => {
+          popup.style.display = 'none';
+          popup.style.opacity = 1;
+        }, 500);
+      }, 3000); // Popup visible for 3 seconds
+    }
+  
+    function getContactRelatedAttachment(recordid, recordName, caseName) {
+      $.ajax({
+        url: 'http://localhost:7000/fetch-zoho-details',
+        method: 'GET',
+        data: { recordid: recordid },
+        success: function(response) {
+          let allResponses = [];
+          if (response.data && response.data.length > 0) {
+            allResponses.push(...response.data);
+            const pendingDocuments = allResponses.filter(doc => doc.zohosign__Document_Status !== "Signed");
+  
+            if (pendingDocuments.length > 0) {
+              hasPendingDocuments = true;
+              const container = document.createElement("div");
+              container.classList.add("document-table-container");
+              const caseDiv = document.createElement("div");
+              caseDiv.classList.add("document-table-container-header");
+
+              // Create a header for the case name
+              const caseHeader = document.createElement("h2");
+              caseHeader.textContent = `${recordName}`;
+              caseDiv.appendChild(caseHeader);
+              
+              const caseHeaderspan = document.createElement("span");
+              caseHeaderspan.textContent = `Case: ${caseName}`;
+              caseDiv.appendChild(caseHeaderspan);
+              container.appendChild(caseDiv);
+              // Create the table wrapper and table elements
+              const tableWrapper = document.createElement("div");
+              tableWrapper.classList.add("table-wrapper");
+              const table = document.createElement("table");
+              table.classList.add("document-table");
+  
+              // Create the table header
+              const thead = document.createElement("thead");
+              const headerRow = document.createElement("tr");
+              const nameHeader = document.createElement("th");
+              nameHeader.textContent = "Name";
+              const statusHeader = document.createElement("th");
+              statusHeader.textContent = "Document Status";
+              headerRow.appendChild(nameHeader);
+              headerRow.appendChild(statusHeader);
+              thead.appendChild(headerRow);
+              table.appendChild(thead);
+  
+              // Create the table body
+              const tbody = document.createElement("tbody");
+  
+              // Create rows for each pending document
+              pendingDocuments.forEach(doc => {
+                const row = document.createElement("tr");
+  
+                // Name cell
+                const nameCell = document.createElement("td");
+                nameCell.classList.add("name-cell");
+                nameCell.textContent = doc.Name;
+                row.appendChild(nameCell);
+  
+                // Status cell
+                const statusCell = document.createElement("td");
+                const statusBadge = document.createElement("span");
+                statusBadge.classList.add("status-badge");
+                statusBadge.classList.add("status-other");
+                statusBadge.textContent = doc.zohosign__Document_Status;
+  
+                statusCell.appendChild(statusBadge);
+                row.appendChild(statusCell);
+  
+                tbody.appendChild(row);
+                $.ajax({
+                  url: 'http://localhost:7000/send-reminder',
+                  method: 'GET',
+                  data: {documentId: doc.zohosign__ZohoSign_Document_ID},
+                  success: function(response) {
+                    console.log('Document processed successfully:', response);
+                    showPopup('Please check your email. We have sent a reminder for the pending document.','Green'); // Show popup
+       
+                  },
+                  error: function(xhr, status, error) {
+                   showPopup('Please Contact to Responsible Attorney','red'); // Show popup
+                    console.error('Error processing document:', error);
+                  }
+                });
+              });
+  
+              // Append the body to the table
+              table.appendChild(tbody);
+  
+              // Append the table to the wrapper and container
+              tableWrapper.appendChild(table);
+              container.appendChild(tableWrapper);
+  
+              // Append the container to the main records container
+              recordsContainer.appendChild(container);
+            }
+          }
+  
+          recordsProcessed++;
+          if (recordsProcessed === totalRecords) {
+            if (!hasPendingDocuments) {
+              const noAttachmentsMessage = document.createElement("div");
+              noAttachmentsMessage.classList.add("no-attachments");
+              noAttachmentsMessage.textContent = "No pending documents for any cases.";
+              recordsContainer.appendChild(noAttachmentsMessage);
+            }
+            document.getElementById('spinner').style.display = "none";
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+          $('#result').html('Error: ' + error);
+        }
+      });
+    }
+  
+    function fetchContactData() {
+      var config = {
+        Entity: "Deals",
+        APIName: "Deals",
+      };
+      ZOHO.CRM.API.getAllRecords(config)
+        .then(function (response) {
+          if (response && response.data && response.data.length > 0) {
+            totalRecords = response.data.length;
+            response.data.forEach(eachResponse => {
+              const recordName = eachResponse.Deal_Name;
+              const caseName = eachResponse.Description_of_Claims || ''; // Adjust according to the actual field name
+              getContactRelatedAttachment(eachResponse.id, recordName, caseName);
+            });
+          } else {
+            console.error("No record found.");
+            document.getElementById('spinner').style.display = "none";
+            const noAttachmentsMessage = document.createElement("div");
+            noAttachmentsMessage.classList.add("no-attachments");
+            noAttachmentsMessage.textContent = "No pending documents for any cases.";
+            recordsContainer.appendChild(noAttachmentsMessage);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching record:", error);
+        });
+    }
+  
+    ZOHO.embeddedApp.on("PageLoad", function (data) {
+      fetchContactData();
+    });
+  
+    ZOHO.embeddedApp.init();
+  </script>
+  
+</body>
+</html>
